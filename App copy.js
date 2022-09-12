@@ -6,30 +6,21 @@ export default function App() {
   const [keyword, setKeyword] = useState('');
   const [recipes, setRecipes] = useState([]);
 
-  const getRecipes = () => {
-    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${keyword}`)
-      .then(response => response.json())
-      .then(data => setRecipes(data.meals))
-      .catch(error => {
-        Alert.alert('Error:', error.message);
-      });
-  }
-
-  const listSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: "80%",
-          backgroundColor: "#CED0CE",
-          marginLeft: "10%"
-        }}
-      />
-    );
-  };
+  const getRecipes = () => { 
+     fetch(`www.themealdb.com/api/json/v1/1/filter.php?i=${keyword}`) 
+      .then(response => response.json())  
+      .then(data => setRecipes(data.meals))  
+      .catch(error => {         
+        Alert.alert('Error:', error.message);  
+       });
+      }
 
   return (
     <View style={styles.container}>
+      <TextInput style={styles.input}
+        placeholder='keyword'
+        onChangeText={text => setKeyword(text)} />
+      <Button title="Find" onPress={getRecipes} />
 
       <FlatList
         keyExtractor={(item, index) => index.toString()}
@@ -45,12 +36,7 @@ export default function App() {
             />
           </View>}
         data={recipes}
-        ItemSeparatorComponent={listSeparator}
       />
-      <TextInput style={styles.input}
-        placeholder='keyword'
-        onChangeText={text => setKeyword(text)} />
-      <Button title="Find" onPress={getRecipes} />
       <StatusBar style="auto" />
     </View>
   );
